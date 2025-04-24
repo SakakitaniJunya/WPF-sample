@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "TodoApp.Backend.GrpcServices";
+
+package todo;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service TodoService {
+  rpc StreamTodos (google.protobuf.Empty) returns (stream TodoDto);
+}
+
+message TodoDto {
+  string id = 1;
+  string title = 2;
+  bool is_done = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}

@@ -1,0 +1,14 @@
+<Application x:Class="TodoApp.FrontEnd.Wpf.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TodoApp.FrontEnd.Wpf"
+             xmlns:converters="clr-namespace:TodoApp.FrontEnd.Wpf.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+            <converters:BoolToStrikethroughConverter x:Key="BoolToStrikethroughConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

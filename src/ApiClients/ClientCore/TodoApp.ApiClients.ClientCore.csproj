@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Abstractions\TodoApp.ApiClients.Abstractions.csproj" />
+    <ProjectReference Include="..\RestClient\TodoApp.ApiClients.RestClient.csproj" />
+    <ProjectReference Include="..\GrpcClient\TodoApp.ApiClients.GrpcClient.csproj" />
+    <ProjectReference Include="..\WebSocketClient\TodoApp.ApiClients.WebSocketClient.csproj" />
+  </ItemGroup>
+
+</Project>

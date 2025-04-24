@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApiClients\ClientCore\TodoApp.ApiClients.ClientCore.csproj" />
+    <ProjectReference Include="..\ApiClients\GrpcClient\TodoApp.ApiClients.GrpcClient.csproj" />
+    <ProjectReference Include="..\ApiClients\RestClient\TodoApp.ApiClients.RestClient.csproj" />
+    <ProjectReference Include="..\ApiClients\WebSocketClient\TodoApp.ApiClients.WebSocketClient.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,143 @@
+<Window x:Class="TodoApp.FrontEnd.Wpf.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TodoApp.FrontEnd.Wpf.Views"
+        xmlns:vm="clr-namespace:TodoApp.FrontEnd.Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="ローカルバックエンド連携 Todoアプリ" Height="500" Width="800">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="ローカルバックエンド連携 Todoアプリ" 
+                     FontSize="24" 
+                     FontWeight="Bold" 
+                     Margin="0,0,0,10"/>
+            
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="接続状態: " VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding ConnectionStatus}" VerticalAlignment="Center"/>
+                
+                <Button Content="接続" 
+                      Command="{Binding ConnectCommand}"
+                      Margin="10,0,0,0" 
+                      Padding="10,5" 
+                      IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBoolConverter}}"/>
+                
+                <Button Content="切断" 
+                      Command="{Binding DisconnectCommand}"
+                      Margin="10,0,0,0" 
+                      Padding="10,5" 
+                      IsEnabled="{Binding IsConnected}"/>
+                
+                <Button Content="更新" 
+                      Command="{Binding RefreshCommand}"
+                      Margin="10,0,0,0" 
+                      Padding="10,5"
+                      IsEnabled="{Binding IsConnected}"/>
+            </StackPanel>
+        </StackPanel>
+        
+        <Grid Grid.Row="1" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox Text="{Binding NewTodoTitle, UpdateSourceTrigger=PropertyChanged}" 
+                   Grid.Column="0"
+                   Padding="10,5"
+                   Margin="0,0,10,0"/>
+            
+            <Button Content="追加" 
+                  Command="{Binding AddTodoCommand}"
+                  Grid.Column="1"
+                  Padding="20,5"
+                  IsEnabled="{Binding IsConnected}"/>
+        </Grid>
+        
+        <ListView Grid.Row="2" 
+                ItemsSource="{Binding TodoItems}"
+                BorderThickness="1"
+                BorderBrush="#DDDDDD">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="0,0,0,1" BorderBrush="#EEEEEE" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <CheckBox IsChecked="{Binding IsDone}"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,10,0"
+                                    Grid.Column="0"/>
+                            
+                            <Grid Grid.Column="1" Visibility="{Binding IsEditing, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                                <TextBlock Text="{Binding Title}"
+                                         TextDecorations="{Binding IsDone, Converter={StaticResource BoolToStrikethroughConverter}}"
+                                         VerticalAlignment="Center"/>
+                            </Grid>
+                            
+                            <Grid Grid.Column="1" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBox Text="{Binding EditedTitle, UpdateSourceTrigger=PropertyChanged}"
+                                       VerticalAlignment="Center"/>
+                            </Grid>
+                            
+                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                <Button Content="編集" 
+                                      Command="{Binding StartEditCommand}"
+                                      Visibility="{Binding IsEditing, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                                      Margin="5,0"/>
+                                
+                                <Button Content="保存" 
+                                      Command="{Binding SaveEditCommand}"
+                                      Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
+                                      Margin="5,0"/>
+                                
+                                <Button Content="キャンセル" 
+                                      Command="{Binding CancelEditCommand}"
+                                      Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
+                                      Margin="5,0"/>
+                                
+                                <Button Content="削除" 
+                                      Command="{Binding DeleteCommand}"
+                                      Margin="5,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        
+        <StatusBar Grid.Row="3" Margin="0,10,0,0">
+            <StatusBarItem>
+                <TextBlock Text="{Binding ConnectionStatus}"/>
+            </StatusBarItem>
+            
+            <StatusBarItem HorizontalAlignment="Right">
+                <ProgressBar IsIndeterminate="{Binding IsLoading}" 
+                           Width="100" 
+                           Height="15" 
+                           Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
